@@ -12,9 +12,9 @@ import org.springframework.stereotype.Service;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final org.springframework.security.crypto.password.PasswordEncoder passwordEncoder;
 
     public User registerUser(RegisterRequest request) {
-        // TODO: Encode password properly later
         if (userRepository.existsByUsername(request.getUsername())) {
             throw new RuntimeException("Username already exists");
         }
@@ -22,7 +22,7 @@ public class UserService {
         var user = User.builder()
                 .username(request.getUsername())
                 .email(request.getEmail())
-                .password(request.getPassword()) // Storing plain text for now, will fix next week
+                .password(passwordEncoder.encode(request.getPassword()))
                 .role(Role.USER)
                 .build();
                 
