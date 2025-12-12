@@ -1,7 +1,8 @@
 package com.authservice.controller;
 
+import com.authservice.dto.AuthenticationRequest;
+import com.authservice.dto.AuthenticationResponse;
 import com.authservice.dto.RegisterRequest;
-import com.authservice.model.User;
 import com.authservice.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +19,12 @@ public class AuthController {
     private final UserService userService;
 
     @PostMapping("/register")
-    public ResponseEntity<User> register(@RequestBody RegisterRequest request) {
+    public ResponseEntity<AuthenticationResponse> register(@RequestBody RegisterRequest request) {
         return ResponseEntity.ok(userService.registerUser(request));
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<AuthenticationResponse> authenticate(@RequestBody AuthenticationRequest request) {
+        return ResponseEntity.ok(userService.authenticate(request));
     }
 }
